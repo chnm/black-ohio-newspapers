@@ -39,17 +39,38 @@ library(treemap)
 library(d3Tree)
 
 # Chronological change of advertisements
+cleaned_data_ads_1840s <- read_csv("../../obn-data/advertisements/1840s.csv")
+cleaned_data_ads_1860s <- read_csv("../../obn-data/advertisements/1860s.csv")
+cleaned_data_ads_1870s <- read_csv("../../obn-data/advertisements/1870s.csv")
+cleaned_data_ads_1880s <- read_csv("../../obn-data/advertisements/1880s.csv")
+cleaned_data_ads_1890s <- read_csv("../../obn-data/advertisements/1890s.csv")
+
+cleaned_data_ads_1840s$decade <- paste0("1840")
+cleaned_data_ads_1860s$decade <- paste0("1860")
+cleaned_data_ads_1870s$decade <- paste0("1870")
+cleaned_data_ads_1880s$decade <- paste0("1880")
+cleaned_data_ads_1890s$decade <- paste0("1890")
+
+names(cleaned_data_ads_1840s) <- tolower(names(cleaned_data_ads_1840s))
+names(cleaned_data_ads_1860s) <- tolower(names(cleaned_data_ads_1860s))
+names(cleaned_data_ads_1870s) <- tolower(names(cleaned_data_ads_1870s))
+names(cleaned_data_ads_1880s) <- tolower(names(cleaned_data_ads_1880s))
+names(cleaned_data_ads_1890s) <- tolower(names(cleaned_data_ads_1890s))
+
+advertisements <- rbind(cleaned_data_ads_1840s, cleaned_data_ads_1860s, cleaned_data_ads_1870s, cleaned_data_ads_1880s, cleaned_data_ads_1890s)
 
 # Small multiples
 ads_multiple <- ggplot(advertisements, aes(x = decade, y = frequency)) +
   geom_bar(stat="identity") +
-  facet_wrap(~category, ncol = 6) +
+  facet_wrap(~category, ncol = 3) +
   theme_minimal() +
   theme(legend.position="none") +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+  )
 #ads_multiple
 
-ads_plotly <- ggplotly(ads_multiple, width = 800, height = 800)
+ads_plotly <- ggplotly(ads_multiple, width = 620, height = 900)
 ads_plotly
 ```
 
